@@ -13,6 +13,6 @@ inputs:
   branch-name:
     description: 'the specific branch to run the task against'
     required: true
-  runs:
-    using: 'node16'
-    main: 'dist/index.js'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
