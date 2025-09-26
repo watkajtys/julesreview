@@ -1,0 +1,18 @@
+name: 'Create Jules API Session'
+description: 'Creates a new session in the Jules API'
+inputs:
+  jules-api-key:
+    description: 'The Jules API key'
+    required: true
+  session-prompt:
+    description: 'the initial message descibing the task'
+    required: true
+  source-name:
+    description: 'the name of the source repository (e.g., "owner/repo")'
+    required: true
+  branch-name:
+    description: 'the specific branch to run the task against'
+    required: true
+  runs:
+    using: 'node16'
+    main: 'dist/index.js'
