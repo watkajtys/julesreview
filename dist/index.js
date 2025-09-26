@@ -35997,9 +35997,9 @@ async function run() {
 
         const body = {
             initialMessage: sessionPrompt,
-            source: [`sources/${sourceName}`],
+            sources: [`sources/${sourceName}`],
             sourceContexts: [{
-                sources: `sources/${sourceName}`,
+                source: `sources/${sourceName}`,
                 githubRepoContext: {
                     startingBranch: branchName,
                 },
