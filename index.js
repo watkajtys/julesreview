@@ -1,5 +1,7 @@
 const core = require ('@actions/core');
+const exec = require('@actions/exec');
 const axios = require('axios');
+const fs = require('fs');
 
 async function run() {
     try {
@@ -32,6 +34,20 @@ async function run() {
 
         // Handle the Response
         core.info('Session created successfully.');
+
+        const patch = response.data.artifacts[0].changeSet.gitPatch.unidiffPatch;
+        core.info(response.data.artifacts[0]);
+        const suggestedMessage = response.data.artifacts[0].changeSet.gitPatch.suggestedCommitMessage;
+
+        fs.writeFileSync('fix.patch', patch);
+
+        await exec.exec('git', ['apply', 'fix.patch']);
+        await exec.exec('git', ['config', 'user.name', 'github-actions[bot]']);
+        await exec.exec('git', ['config', 'user.email', 'github-actions[bot]@users.noreply.github.com']);
+
+        const finalCommitMessage = `${suggestedMessage}\n\n[skip-jules-review]`;
+        await exec.exec('git', ['push']);
+        core.info('Comitted and Pushed with [skip-jules-review] flag');
         core.setOutput('session-name', response.data.name);
 
     } catch (error) {
